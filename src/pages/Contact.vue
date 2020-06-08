@@ -2,9 +2,6 @@
 export default {
   name: "contact",
   mounted: function() {
-    if (!this.$services.listarificService.getState().userSignedIn) {
-      this.$router.push("/");
-    }
     this.generateRandomQuestionValues();
   },
   methods: {
@@ -33,7 +30,7 @@ export default {
             this.$refs.EmailSubjectInputRef.focus();
           });
         } else {
-          this.$services.listarificService.sendMessage(
+          this.$services.authService.sendMessage(
             this.$data.fromName,
             this.$data.fromEmailAddress,
             this.$data.fromEmailSubject,
@@ -42,7 +39,7 @@ export default {
 
           this.$services.notificationsService.success(this, "Email Sent");
 
-          this.$router.push("/contact");
+          this.$router.push("/");
         }
       } else {
         this.$nextTick(function() {
@@ -64,8 +61,7 @@ export default {
       fromEmailAddress: "",
       fromEmailSubject: "",
       fromEmailMessage: "",
-      messages: "",
-      state: this.$services.listarificService.getState()
+      messages: ""
     };
   }
 };
