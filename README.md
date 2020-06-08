@@ -44,3 +44,15 @@ npm run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## More Info
+
+### Vuetify
+
+- [Usage](https://vuetifyjs.com/en/getting-started/quick-start/)
+- [Responsive UX](https://vuetifyjs.com/en/getting-started/pre-made-layouts/)
+
+### Forms
+
+- [Vuetify Compliant Libs](https://vuetifyjs.com/en/components/forms/)
+- [vee-validate](https://logaretm.github.io/vee-validate/)
