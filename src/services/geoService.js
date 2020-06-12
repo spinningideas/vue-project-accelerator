@@ -1,6 +1,6 @@
 import HttpClient from "./HttpClient";
 
-const geoService = () => {
+const GeoService = () => {
   const getCurrentIPAddress = async () => {
     const client = HttpClient();
     let url = `https://freegeoip.app/json/`;
@@ -17,4 +17,4 @@ const geoService = () => {
   };
 };
 
-export default geoService;
+export default GeoService;

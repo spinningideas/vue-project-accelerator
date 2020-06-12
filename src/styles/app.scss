@@ -1,0 +1,608 @@
+@import url('//fonts.googleapis.com/css?family=Open+Sans|Material+Icons');
+
+/* global pallete - https://www.materialpalette.com/colors - Blue*/
+/* Vuetify vars*/
+$primary-theme-toolbar-bgcolor: #ffffff;
+$primary-theme-color: #1976d2;
+$primary-theme-color-dark: #1565c0;
+$black: #030303;
+$grey-color-darkest: #3f3f3f;
+$grey-color-dark: #666666;
+$grey-color-med: #999999;
+$grey-color: #cccccc;
+$white: #ffffff;
+$success: #43a047;
+$error: #e53935;
+
+$border-radius-root: 1px;
+$button-border-radius: 0;
+$card-border-radius: 0;
+
+body {
+  background-color: $white;
+  padding-top: 0;
+  padding-bottom: 20px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.428571429;
+}
+
+a {
+  color: $primary-theme-color;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus,
+a:visited {
+  color: $primary-theme-color;
+  cursor: pointer;
+}
+
+h2 {
+  color: $primary-theme-color;
+  font-size: 30px !important;
+}
+
+h3 {
+  color: $primary-theme-color-dark;
+  font-size: 26px !important;
+}
+
+h4 {
+  color: $primary-theme-color-dark;
+  font-size: 22px !important;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: normal;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  margin: 10px 0 10px 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* spacing utils */
+
+
+.br-0 {
+  border-radius: 0 !important;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+.p-1 {
+  padding: 0.25em !important;
+}
+.p-2 {
+  padding: 0.5em !important;
+}
+.p-3 {
+  padding: 1em !important;
+}
+.pt-1 {
+  padding-top: 0.25em !important;
+}
+.pt-2 {
+  padding-top: 0.5em !important;
+}
+.pt-3 {
+  padding-top: 1em !important;
+}
+.pr-1 {
+  padding-right: 0.25em !important;
+}
+.pr-2 {
+  padding-right: 0.5em !important;
+}
+.pr-3 {
+  padding-right: 1em !important;
+}
+.pb-1 {
+  padding-bottom: 0.25em !important;
+}
+.pb-2 {
+  padding-bottom: 0.5em !important;
+}
+.pb-3 {
+  padding-bottom: 1em !important;
+}
+.pl-1 {
+  padding-left: 0.25em !important;
+}
+.pl-2 {
+  padding-left: 0.5em !important;
+}
+.pl-3 {
+  padding-left: 1em !important;
+}
+.m-0 {
+  margin: 0 !important;
+}
+.m-1 {
+  margin: 0.25em !important;
+}
+.m-2 {
+  margin: 0.5em !important;
+}
+.m-3 {
+  margin: 1em !important;
+}
+.mt-1 {
+  margin-top: 0.25em !important;
+}
+.mt-2 {
+  margin-top: 0.5em !important;
+}
+.mt-3 {
+  margin-top: 1em !important;
+}
+.mr-1 {
+  margin-right: 0.25em !important;
+}
+.mr-2 {
+  margin-right: 0.5em !important;
+}
+.mr-3 {
+  margin-right: 1em !important;
+}
+.mb-1 {
+  margin-bottom: 0.25em !important;
+}
+.mb-2 {
+  margin-bottom: 0.5em !important;
+}
+.mb-3 {
+  margin-bottom: 1em !important;
+}
+.ml-1 {
+  margin-left: 0.25em !important;
+}
+.ml-2 {
+  margin-left: 0.5em !important;
+}
+.ml-3 {
+  margin-left: 1em !important;
+}
+
+.error-text {
+  color: $error;
+}
+
+.success-text {
+  color: #77b300;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+/** form input styles */
+input {
+  height: 35px;
+  padding: 5px 10px;
+}
+
+.input-group__input {
+  border: 1px solid $grey-color-med !important;
+}
+
+.input-group--text-field label {
+  top: 18px !important;
+  padding-left: 10px !important;
+}
+
+.input-group__selections {
+  padding-left: 10px !important;
+}
+
+.control-label {
+  display: flex;
+  align-items: left !important;
+  justify-content: left !important;
+  -ms-flex-pack: left;
+  -webkit-box-align: left;
+  -webkit-box-pack: left;
+  justify-content: left;
+  font-weight: 600;
+  color: $grey-color-dark;
+  margin: 5px 0;
+}
+
+/* Form validation styles */
+.required-field-indicator {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: $error;
+}
+
+.required {
+  border-right: 2px solid $error;
+}
+
+.error {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: $error;
+}
+
+input.error {
+  border: 1px solid $error;
+  background-color: #fef6f3;
+}
+
+label.error {
+  display: inline;
+  padding-left: 5px;
+}
+
+textarea.error {
+  border: 1px solid $error;
+  background-color: #fef6f3;
+}
+
+/* site styles */
+.border-top {
+  border-top: solid 1px $grey-color-med;
+}
+
+.border-left {
+  border-left: solid 1px $grey-color-med;
+}
+
+.border-right {
+  border-right: solid 1px $grey-color-med;
+}
+
+.border-bottom {
+  border-bottom: solid 1px $grey-color-med;
+}
+
+.show {
+  visibility: visible;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+/* Notifications */
+
+.notification-title {
+  font-weight: bold;
+}
+
+.notification-message a,
+.notification-messagelabel {
+  color: $white;
+}
+
+.notification-message a:hover {
+  color: $grey-color;
+  text-decoration: none;
+}
+
+.notification-close-button {
+  position: relative;
+  right: -0.3em;
+  top: -0.3em;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: $white;
+}
+
+.notification-close-button:hover,
+.notification-close-button:focus {
+  color: $grey-color-darkest;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/*Additional properties for button version
+ iOS requires the button element instead of an anchor tag.
+ If you want the anchor version, it requires `href="#"`.*/
+button.notification-close-button {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}
+
+.notification-top-center {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+
+.notification-bottom-center {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+
+.notification-top-full-width {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+
+.notification-bottom-full-width {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+
+.notification-top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.notification-top-right {
+  top: 12px;
+  right: 12px;
+}
+
+.notification-bottom-right {
+  right: 12px;
+  bottom: 12px;
+}
+
+.notification-bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+
+.notification-container {
+  position: fixed;
+  z-index: 999999;
+  pointer-events: none;
+
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.notification-container > div {
+  position: relative;
+  pointer-events: auto;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 15px 15px 15px 50px;
+  width: 300px;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  color: $white;
+}
+
+.notification-container :hover {
+  cursor: pointer;
+}
+
+.notification-container > .notification:before {
+  position: relative;
+  font-family: 'Material Icons';
+  font-size: 22px;
+  line-height: 18px;
+  float: left;
+  margin-left: -1.5em;
+  color: $white;
+  padding-right: 0;
+  margin-right: 0;
+}
+
+/* NOTE: Content values are from corresponding icons from material icons (https://material.io/icons/) and values here: https://github.com/google/material-design-icons/blob/master/iconfont/codepoints#L258 */
+.notification-container .notification-info:before {
+  content: '\e88e';
+}
+
+.notification-container .notification-error:before {
+  content: '\e000' !important;
+}
+
+.notification-container .notification-success:before {
+  content: '\e876';
+}
+
+.notification-container .notification-warning:before {
+  content: '\e002' !important;
+}
+
+/*overrides*/
+.notification-top-center > div,
+.notification-bottom-center > div {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.notification-top-full-width > div,
+.notification-bottom-full-width > div {
+  width: 96%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.notification {
+  background-color: $black;
+}
+
+.notification-success {
+  background-color: $success;
+}
+
+.notification-error {
+  background-color: $error;
+}
+
+.notification-info {
+  background-color: $primary-theme-color;
+}
+
+.notification-warning {
+  background-color: $grey-color;
+}
+
+.notification-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  background-color: $grey-color-darkest;
+}
+
+/*Responsive Design*/
+
+@media all and (max-width: 240px) {
+  .notification-container div {
+    padding: 4px 4px 4px 50px;
+    width: 11em;
+  }
+
+  .notification-container .notification-close-button {
+    right: -0.2em;
+    top: -0.2em;
+  }
+
+  .notification-message {
+    padding-left: 0 !important;
+  }
+}
+
+@media all and (min-width: 241px) and (max-width: 480px) {
+  .notification-container div {
+    padding: 4px 4px 4px 50px;
+    width: 18em;
+  }
+
+  .notification-container .notification-close-button {
+    right: -0.2em;
+    top: -0.2em;
+  }
+
+  .notification:before {
+    padding-top: 4px;
+  }
+
+  .notification-message {
+    padding-left: 0 !important;
+  }
+}
+
+@media all and (min-width: 481px) and (max-width: 768px) {
+  .notification-container div {
+    padding: 15px 15px 15px 50px;
+    width: 25em;
+  }
+
+  .notification:before {
+    padding-top: 4px;
+  }
+
+  .notification-message {
+    padding-left: 0 !important;
+  }
+}
+
+/* Vuetify */
+
+.toolbar--fixed + main {
+  padding-top: 34px !important;
+}
+
+.theme--light.application {
+  background-color: $primary-theme-toolbar-bgcolor;
+}
+
+.theme--light.v-toolbar {
+  background-color: $primary-theme-toolbar-bgcolor;
+}
+
+.application--wrap .toolbar {
+  color: $grey-color-dark !important;
+}
+
+.application--wrap .theme--light.btn .icon {
+  color: $grey-color-dark !important;
+}
+
+.application--wrap .toolbar .btn {
+  color: $grey-color-dark !important;
+}
+
+.navigation-drawer--clipped {
+  margin-top: 48px !important;
+}
+
+.navigation-drawer ul li {
+  width: 100% !important;
+}
+
+.theme--light.v-text-field--outline > .v-input__control > .v-input__slot {
+  border: 1px solid $grey-color-med;
+  border-radius: 2px;
+}
+
+.container {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.content-container {
+  margin-top: 40px;
+  padding: 10px !important;
+}
+
+.card {
+  border-radius: 0 !important;
+  border: 1px solid $grey-color;
+  box-shadow: none !important;
+  webkit-box-shadow: none !important;
+}
+
+.v-btn {
+  border-radius: 2px !important;
+}
+
+.alert {
+  background-color: $error !important;
+  color: $white !important;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+.info {
+  background-color: $grey-color-dark !important;
+  color: $white !important;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+/* Lists - custom overrides to cards to make them more dense */
+.card-list .card__title--primary {
+  padding-top: 15px;
+}
+
+.card-list .card__title {
+  padding: 10px;
+}
+
+.card-list .list__tile {
+  padding: 0;
+}
+
+.card-list li {
+  margin: 0;
+  width: 100%;
+}

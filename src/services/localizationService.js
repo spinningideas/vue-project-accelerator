@@ -1,10 +1,10 @@
-const supportedLanguageMap = {
-  enUS: "English",
-  zhCN: "Chinese",
-  esES: "Spanish"
-};
+const supportedLanguageMap = [
+  { localeCode: "enUS", text: "English" },
+  { localeCode: "zhCN", text: "Chinese" },
+  { localeCode: "esES", text: "Spanish" }
+];
 
-const localizationService = () => {
+const LocalizationService = () => {
   const defaultLocale = "enUS";
 
   const getLocales = () => {
@@ -77,4 +77,4 @@ const localizationService = () => {
   };
 };
 
-export default localizationService;
+export default LocalizationService;

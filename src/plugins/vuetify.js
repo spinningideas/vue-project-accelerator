@@ -3,7 +3,8 @@ https://vuetifyjs.com/en/customization/theme/
 */
 
 import Vue from "vue";
-import Vuetify, {
+import Vuetify, { transitions } from "vuetify";
+import {
   VApp,
   VAlert,
   VAvatar,
@@ -18,15 +19,13 @@ import Vuetify, {
   VIcon,
   VImg,
   VMenu,
-  VGrid,
   VSelect,
   VSubheader,
   VTextField,
   VTextarea,
   VToolbar,
-  VTabs,
-  transitions
-} from "vuetify";
+  VTabs
+} from "vuetify/lib";
 
 let vuetifyOptions = {
   components: {
@@ -44,7 +43,6 @@ let vuetifyOptions = {
     VIcon,
     VImg,
     VMenu,
-    VGrid,
     VSelect,
     VSubheader,
     VTextField,
@@ -57,8 +55,8 @@ let vuetifyOptions = {
     primary: "#1e88e5",
     secondary: "#1976d2",
     accent: "#1565c0",
-    error: "#cc0000",
-    success: "#77b300",
+    error: "#e53935",
+    success: "#43a047",
     warning: "#FFC107"
   },
   customProperties: false,

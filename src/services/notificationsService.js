@@ -1,4 +1,4 @@
-const notificationsService = {
+const NotificationsService = {
   success: function(component, message) {
     var ref = this.getRef(component);
     ref.success(message);
@@ -24,4 +24,4 @@ const notificationsService = {
   }
 };
 
-export default notificationsService;
+export default NotificationsService;

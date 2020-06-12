@@ -1,67 +1,59 @@
 <script>
 export default {
   name: "contact",
-  mounted: function() {
-    this.generateRandomQuestionValues();
+  mounted: async function() {
+    let localizationService = this.$services.LocalizationService();
+
+    const locCode = localizationService.getUserLocale();
+    const locDataLoaded = await localizationService.getLocalizedTextSet(
+      [
+        "contact",
+        "contactdescription",
+        "moreinfo",
+        "save",
+        "name",
+        "email",
+        "message",
+        "messagedescription",
+        "required",
+        "success"
+      ],
+      locCode
+    );
+    this.$data.locData = locDataLoaded;
   },
   methods: {
-    generateRandomQuestionValues: function() {
-      var from = 1;
-      var to = 10;
-      var Q1 = Math.floor(Math.random() * to) + from;
-      var Q2 = Math.floor(Math.random() * to) + from;
-      this.$data.Q1Value = Q1;
-      this.$data.Q2Value = Q2;
+    getLocalizedValidationMessage: function() {
+      return this.$data.locData.required ? this.$data.locData.required : "";
     },
     sendContactMessage: function() {
-      if (this.$data.Q1Value + this.$data.Q2Value === this.$data.answer) {
-        if (this.$data.fromName.length === 0) {
-          this.$nextTick(function() {
-            this.$refs.NameInputRef.focus();
-          });
-        }
-        if (this.$data.fromEmailAddress.length === 0) {
-          this.$nextTick(function() {
-            this.$refs.EmailAddressInputRef.focus();
-          });
-        }
-        if (this.$data.fromEmailSubject.length === 0) {
-          this.$nextTick(function() {
-            this.$refs.EmailSubjectInputRef.focus();
-          });
-        } else {
-          this.$services.authService.sendMessage(
-            this.$data.fromName,
-            this.$data.fromEmailAddress,
-            this.$data.fromEmailSubject,
-            this.$data.fromEmailMessage
-          );
-
-          this.$services.notificationsService.success(this, "Email Sent");
-
-          this.$router.push("/");
-        }
-      } else {
-        this.$nextTick(function() {
-          this.$refs.PreventSpamAnswerInputRef.focus();
-        });
-        this.$services.notificationsService.error(
+      this.$refs.form.validate();
+      if (this.$data.formIsValid) {
+        this.$services.NotificationsService.success(
           this,
-          "Please answer the spam filter question correctly"
+          this.$data.locData.success
         );
+
+        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
       }
     }
   },
   data() {
     return {
-      Q1Value: 1,
-      Q2Value: 5,
-      answer: "",
-      fromName: "",
-      fromEmailAddress: "",
-      fromEmailSubject: "",
-      fromEmailMessage: "",
-      messages: ""
+      locData: {},
+      name: "",
+      email: "",
+      message: "",
+      formIsValid: false,
+      enableLazyValidation: false,
+      requiredTextFieldRules: [
+        v => (!!v && v.length > 2) || this.getLocalizedValidationMessage()
+      ],
+      emailRules: [
+        v => !!v || this.getLocalizedValidationMessage(),
+        v => /.+@.+/.test(v) || this.getLocalizedValidationMessage()
+      ]
     };
   }
 };
@@ -70,98 +62,61 @@ export default {
 <template>
   <v-layout row wrap>
     <v-flex xs12>
-      <v-card class="container-content pl-4 pr-4">
-        <h2>Contact</h2>
-        <p>Need to communicate with us? Send your info using the form below.</p>
-        <p>
-          Please include as much detail as needed to allow us to respond and to
-          help us understand your needs.
-        </p>
-        <v-flex xs8>
-          <v-text-field
-            ref="NameInputRef"
-            name="Name"
-            label="Name"
-            hint="Your Name"
-            class="input-group--focused"
-            v-model="fromName"
-          ></v-text-field>
-        </v-flex>
-        <v-flex>
-          <v-text-field
-            ref="EmailAddressInputRef"
-            name="EmailAddress"
-            label="Email Address"
-            hint="Your Email Address"
-            class="input-group"
-            v-model="fromEmailAddress"
-          ></v-text-field>
-        </v-flex>
-        <v-flex>
-          <v-text-field
-            ref="EmailSubjectInputRef"
-            name="EmailSubject"
-            label="Email Subject"
-            hint="Your Email Subject"
-            class="input-group"
-            multi-line
-            v-model="fromEmailSubject"
-          ></v-text-field>
-        </v-flex>
-        <v-flex>
-          <v-text-field
-            ref="EmailMessageInputRef"
-            name="EmailMessage"
-            label="Email Message"
-            hint="Your Email Message"
-            class="input-group"
-            multi-line
-            v-model="fromEmailMessage"
-          ></v-text-field>
-        </v-flex>
-        <v-flex>
-          <v-subheader>Please answer the following equation:</v-subheader>
-          <p class="small">
-            (this is a mechanism to help prevent automated form submission)
+      <v-card class="container-content">
+        <v-card-text>
+          <h2>{{ locData.contact }}</h2>
+          <p>
+            {{ locData.contactdescription }}
           </p>
-        </v-flex>
-        <v-layout row wrap>
-          <v-flex xs2>
-            <v-text-field
-              ref="PreventSpamQ1InputRef"
-              name="PreventSpamQ1"
-              label=""
-              readonly="readonly"
-              v-model="Q1Value"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs1>
-            +
-          </v-flex>
-          <v-flex xs2>
-            <v-text-field
-              ref="PreventSpamQ2InputRef"
-              name="PreventSpamQ2"
-              label=""
-              readonly="readonly"
-              v-model="Q2Value"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs1>
-            =
-          </v-flex>
-          <v-flex xs2>
-            <v-text-field
-              ref="PreventSpamAnswerInputRef"
-              name="PreventSpamAnswer"
-              label=""
-              v-model="answer"
-            ></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-flex>
-          <v-btn color="primary" @click="sendContactMessage">Submit</v-btn>
-        </v-flex>
+          <v-form
+            ref="form"
+            v-model="formIsValid"
+            :lazy-validation="enableLazyValidation"
+          >
+            <v-layout row wrap class="p-3">
+              <v-flex xs12>
+                <v-text-field
+                  ref="NameInputRef"
+                  name="Name"
+                  v-bind:label="locData.name"
+                  v-model="name"
+                  :rules="requiredTextFieldRules"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  ref="EmailAddressInputRef"
+                  name="email"
+                  v-bind:label="locData.email"
+                  v-model="email"
+                  :rules="emailRules"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  ref="MessageInputRef"
+                  name="message"
+                  v-bind:label="locData.message"
+                  multi-line
+                  v-model="message"
+                  :rules="requiredTextFieldRules"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-btn
+                  color="primary"
+                  :disabled="!formIsValid"
+                  @click="sendContactMessage"
+                >
+                  {{ locData.save }}
+                </v-btn>
+              </v-flex>
+            </v-layout>
+          </v-form>
+        </v-card-text>
       </v-card>
     </v-flex>
   </v-layout>
