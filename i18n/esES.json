@@ -21,8 +21,8 @@
   "aboutdescription": "Esta aplicación fue creada para proporcionar una implementación de referencia de ejemplo para arrancar y acelerar el proyecto de reacción y para explorar el uso de varias bibliotecas del lado del cliente para componer una experiencia de usuario rica.",
   "technology": "Tecnología",
   "technologydescription": "Esta aplicación fue construida usando las siguientes tecnologías:",
-  "reactjs": "Reaccionar JS",
-  "reactjsdescription": "React hace que sea sencillo crear interfaces de usuario interactivas utilizando componentes encapsulados que administran su propio estado.",
+  "vuejs": "Vue JS",
+  "vuejsdescription": "Vue es un marco de JavaScript progresivo que permite crear interfaces de usuario interactivas utilizando componentes encapsulados que administran su propio estado.",
   "vuetifylibrary": "Material-UI",
   "vuetifylibrarydescription": "Componentes React visualmente atractivos que implementan el diseño de materiales de Google junto con el diseño y el soporte de temas.",
   "vuecliname": "Crear Aplicación React",
@@ -37,8 +37,10 @@
   "view": "Ver",
   "authenticatedcontent": "Contenido Autenticado",
   "authenticatedcontentdescription": "Aquí se muestra el contenido solo si los usuarios han iniciado sesión",
-  "serviceexampletitle": "Ver dirección IP",
-  "serviceexampledescription": "Ejemplo de uso de servicios y HttpClient",
+	"services": "Servicios",
+	"serviceexampletitle": "Ver dirección IP",
+	"serviceexampledescription": "Ejemplo de uso de servicios y HttpClient",
+	"forms":"Formas",
   "formsexample": "Ejemplo De Formularios",
   "formsexampledescription": "Ejemplo de uso de formularios y validación a través de formik"
 }
