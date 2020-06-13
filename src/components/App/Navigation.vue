@@ -52,12 +52,17 @@ export default {
       }
       this.$data.userSignInDialogOpen = false;
     },
-    toggleDrawer: function() {
+    toggleDrawer: function(forceClose) {
       this.$data.drawer = !this.$data.drawer;
+      if (forceClose) {
+        setTimeout(() => {
+          this.$data.drawer = false;
+        }, 0);
+      }
     }
   },
   data: () => ({
-    drawer: null,
+    drawer: false,
     userSignedIn: false,
     userSignInDialogOpen: false,
     locData: {}
@@ -66,9 +71,9 @@ export default {
 </script>
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" app clipped temporary>
+    <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
-        <v-list-item to="/" @click="toggleDrawer()">
+        <v-list-item to="/" @click="toggleDrawer(true)">
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
@@ -76,7 +81,7 @@ export default {
             <v-list-item-title>{{ locData.home }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/contact" @click="toggleDrawer()">
+        <v-list-item to="/contact" @click="toggleDrawer(true)">
           <v-list-item-action>
             <v-icon>mdi-email</v-icon>
           </v-list-item-action>
@@ -84,7 +89,7 @@ export default {
             <v-list-item-title>{{ locData.contact }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/about" @click="toggleDrawer()">
+        <v-list-item to="/about" @click="toggleDrawer(true)">
           <v-list-item-action>
             <v-icon>mdi-help</v-icon>
           </v-list-item-action>
@@ -96,7 +101,9 @@ export default {
     </v-navigation-drawer>
 
     <v-app-bar app dense color="white">
-      <v-app-bar-nav-icon @click.stop="toggleDrawer()"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        @click.stop="toggleDrawer(false)"
+      ></v-app-bar-nav-icon>
       <v-toolbar-title>{{ locData.apptitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <language-selection class="mr-2"></language-selection>

@@ -22,6 +22,10 @@ export default new Router({
       name: "about",
       component: () =>
         import(/* webpackChunkName: "about" */ "./pages/About.vue")
+    },{
+      path: "*",
+      name: "wildcard",
+      component: () => import(/* webpackChunkName: "home" */ "./pages/Home.vue")
     }
   ]
 });

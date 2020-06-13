@@ -14,7 +14,7 @@ export default {
     <v-btn v-if="userSignedIn" @click="onSignOut">
       {{ locData.signout }}
     </v-btn>
-    <v-btn v-if="!userSignedIn" @click="onSignIn">
+    <v-btn v-if="!userSignedIn" @click="onSignIn" color="primary">
       {{ locData.signin }}
     </v-btn>
   </span>

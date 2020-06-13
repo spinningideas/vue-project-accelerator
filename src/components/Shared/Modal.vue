@@ -10,7 +10,11 @@ export default {
 };
 </script>
 <template>
-  <v-dialog v-model="open" width="width">
+  <v-dialog
+    v-model="open"
+    width="width"
+    :fullscreen="$vuetify.breakpoint.mobile"
+  >
     <v-card>
       <v-card-title class="d-flex flex-row">
         <span v-if="title" class="d-flex justify-start">

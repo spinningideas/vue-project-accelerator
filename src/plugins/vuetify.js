@@ -1,4 +1,5 @@
 /*
+see https://vuetifyjs.com/en/customization/a-la-carte/ and 
 https://vuetifyjs.com/en/customization/theme/
 */
 
@@ -52,12 +53,12 @@ let vuetifyOptions = {
     transitions
   },
   theme: {
-    primary: "#1e88e5",
-    secondary: "#1976d2",
+    primary: "#1976d2",
+    secondary: "#1565c0",
     accent: "#1565c0",
     error: "#e53935",
     success: "#43a047",
-    warning: "#FFC107"
+    warning: "#ffd54f"
   },
   customProperties: false,
   iconfont: "md"

@@ -3,8 +3,8 @@ export default {
   name: "language-selection",
   mounted: function() {
     let localizationService = this.$services.LocalizationService();
-    this.$data.localeCode = localizationService.getUserLocale();
     this.$data.languages = localizationService.getLocales();
+    this.$data.selectedLocaleCode = localizationService.getUserLocale();
   },
   methods: {
     onLanguageSelect: function(localeCode) {
@@ -14,7 +14,7 @@ export default {
     }
   },
   data: () => ({
-    localeCode: "",
+    selectedLocaleCode: "",
     languages: []
   })
 };
@@ -26,11 +26,12 @@ export default {
         <v-icon>mdi-translate</v-icon>
       </v-btn>
     </template>
-    <v-list>
+    <v-list v-model="selectedLocaleCode" active-class="primary-text">
       <v-list-item
         v-for="lang in languages"
         :key="lang.localeCode"
         @click="onLanguageSelect(lang.localeCode)"
+				:class="lang.localeCode === selectedLocaleCode ? 'primary-text' : ''"
       >
         <v-list-item-title>{{ lang.text }}</v-list-item-title>
       </v-list-item>
