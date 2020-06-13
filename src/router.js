@@ -4,7 +4,7 @@ Vue.use(Router);
 
 export default new Router({
   mode: "history",
-  base: process.env.BASE_URL,
+  base: process.env.BASE_URL + "/",
   routes: [
     {
       path: "/",
@@ -22,10 +22,12 @@ export default new Router({
       name: "about",
       component: () =>
         import(/* webpackChunkName: "about" */ "./pages/About.vue")
-    },{
+    },
+    {
       path: "*",
       name: "wildcard",
-      component: () => import(/* webpackChunkName: "home" */ "./pages/Home.vue")
+      component: () =>
+        import(/* webpackChunkName: "wildcard" */ "./pages/Home.vue")
     }
   ]
 });
