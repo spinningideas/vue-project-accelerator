@@ -42,7 +42,7 @@ export default {
             <v-container fluid>
               <v-row dense>
                 <v-col cols="12" md="4" lg="3">
-                  <v-card height="175">
+                  <v-card height="200">
                     <v-card-title primary-title>{{
                       locData.vuejs
                     }}</v-card-title>
@@ -61,7 +61,7 @@ export default {
                   </v-card>
                 </v-col>
                 <v-col cols="12" md="4" lg="3">
-                  <v-card height="175">
+                  <v-card height="200">
                     <v-card-title primary-title>{{
                       locData.vuetifylibrary
                     }}</v-card-title>
@@ -80,7 +80,7 @@ export default {
                   </v-card>
                 </v-col>
                 <v-col cols="12" md="4" lg="3">
-                  <v-card height="175">
+                  <v-card height="200">
                     <v-card-title primary-title>{{
                       locData.vuecliname
                     }}</v-card-title>
