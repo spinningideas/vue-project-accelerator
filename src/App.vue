@@ -13,13 +13,13 @@ export default {
 <template>
   <v-app id="appshell">
     <navigation />
-    <v-content class="content-container">
+    <v-main class="content-container">
       <v-container fluid>
         <v-slide-y-transition mode="out-in">
           <router-view></router-view>
         </v-slide-y-transition>
       </v-container>
-    </v-content>
+    </v-main>
     <notifications ref="notificationsRef"></notifications>
   </v-app>
 </template>

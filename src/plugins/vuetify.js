@@ -1,11 +1,9 @@
 /*
-see https://vuetifyjs.com/en/customization/a-la-carte/ and 
-https://vuetifyjs.com/en/customization/theme/
+import only what is needed to reduce bundle size 
+and be clearer about dependencies
 */
-
 import Vue from "vue";
-import Vuetify, { transitions } from "vuetify";
-import {
+import Vuetify, {
   VApp,
   VAlert,
   VAvatar,
@@ -49,8 +47,7 @@ let vuetifyOptions = {
     VTextField,
     VTextarea,
     VToolbar,
-    VTabs,
-    transitions
+    VTabs
   },
   theme: {
     primary: "#1976d2",
@@ -61,7 +58,9 @@ let vuetifyOptions = {
     warning: "#ffd54f"
   },
   customProperties: false,
-  iconfont: "md"
+  icons: {
+    iconfont: "md"
+  }
 };
 
 Vue.use(Vuetify, vuetifyOptions);

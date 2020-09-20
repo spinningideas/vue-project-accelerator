@@ -74,7 +74,7 @@ const HttpClient = () => {
     });
   };
 
-  const postData = async (url, data = {}, token) => {
+  const postDataAuthenticated = async (url, data = {}, token) => {
     let postHeaders = {
       Accept: "application/json",
       "Content-Type": "application/json"
@@ -94,7 +94,7 @@ const HttpClient = () => {
   return {
     getData,
     getDataAuthenticated,
-    postData
+    postDataAuthenticated
   };
 };
 

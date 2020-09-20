@@ -70,7 +70,7 @@ export default {
 };
 </script>
 <template>
-  <div>
+  <v-container fluid>
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
         <v-list-item to="/" @click="toggleDrawer(true)">
@@ -121,5 +121,5 @@ export default {
         v-bind:on-sign-in-cancel="onSignOut"
       ></auth-dialog>
     </v-app-bar>
-  </div>
+  </v-container>
 </template>

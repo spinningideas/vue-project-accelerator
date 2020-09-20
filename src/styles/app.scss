@@ -1,4 +1,4 @@
-@import url('//fonts.googleapis.com/css?family=Open+Sans|Material+Icons');
+@import url('//fonts.googleapis.com/css?family=Open+Sans');
 
 /* global pallete - https://www.materialpalette.com/colors - Blue*/
 /* Custom vars*/
@@ -464,8 +464,8 @@ button.notification-close-button {
 }
 
 .content-container {
-  margin-top: 40px;
-  padding: 10px !important;
+	margin: 40px 0 0 0 !important;
+	padding: 0 !important;
 }
 
 .theme--light.application {
@@ -481,13 +481,20 @@ button.notification-close-button {
 }
 
 .v-list-item--active .v-list-item__title {
-	color: $primary-theme-color !important;
+  color: $primary-theme-color !important;
 }
 
-.v-card, .v-dialog, .v-btn  {
-	border-radius: $border-radius !important;
+.v-card,
+.v-dialog,
+.v-btn {
+  border-radius: $border-radius !important;
 }
 
-.v-btn--contained{
-	box-shadow: none !important;
+.v-card__actions {
+  position: absolute !important;
+  bottom: 0 !important;
+}
+
+.v-btn--contained {
+  box-shadow: none !important;
 }

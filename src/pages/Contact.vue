@@ -60,64 +60,66 @@ export default {
 </script>
 
 <template>
-  <v-layout row wrap>
-    <v-flex xs12>
-      <v-card class="container-content">
-        <v-card-text>
-          <h2>{{ locData.contact }}</h2>
-          <p>
-            {{ locData.contactdescription }}
-          </p>
-          <v-form
-            ref="form"
-            v-model="formIsValid"
-            :lazy-validation="enableLazyValidation"
-          >
-            <v-layout row wrap class="p-3">
-              <v-flex xs12>
-                <v-text-field
-                  ref="NameInputRef"
-                  name="Name"
-                  v-bind:label="locData.name"
-                  v-model="name"
-                  :rules="requiredTextFieldRules"
-                  required
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field
-                  ref="EmailAddressInputRef"
-                  name="email"
-                  v-bind:label="locData.email"
-                  v-model="email"
-                  :rules="emailRules"
-                  required
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field
-                  ref="MessageInputRef"
-                  name="message"
-                  v-bind:label="locData.message"
-                  multi-line
-                  v-model="message"
-                  :rules="requiredTextFieldRules"
-                  required
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-btn
-                  color="primary"
-                  :disabled="!formIsValid"
-                  @click="sendContactMessage"
-                >
-                  {{ locData.save }}
-                </v-btn>
-              </v-flex>
-            </v-layout>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <v-container fluid>
+    <v-row no-gutters>
+      <v-col cols="12">
+        <v-card width="400" flat>
+          <v-card-text>
+            <h2>{{ locData.contact }}</h2>
+            <p>
+              {{ locData.contactdescription }}
+            </p>
+            <v-form
+              ref="form"
+              v-model="formIsValid"
+              :lazy-validation="enableLazyValidation"
+            >
+              <v-container fluid class="p-3">
+                <v-col cols="12">
+                  <v-text-field
+                    ref="NameInputRef"
+                    name="Name"
+                    v-bind:label="locData.name"
+                    v-model="name"
+                    :rules="requiredTextFieldRules"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    ref="EmailAddressInputRef"
+                    name="email"
+                    v-bind:label="locData.email"
+                    v-model="email"
+                    :rules="emailRules"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    ref="MessageInputRef"
+                    name="message"
+                    v-bind:label="locData.message"
+                    multi-line
+                    v-model="message"
+                    :rules="requiredTextFieldRules"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-btn
+                    color="primary"
+                    :disabled="!formIsValid"
+                    @click="sendContactMessage"
+                  >
+                    {{ locData.save }}
+                  </v-btn>
+                </v-col>
+              </v-container>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

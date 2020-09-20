@@ -9,8 +9,9 @@ export default {
   methods: {
     onLanguageSelect: function(localeCode) {
       let localizationService = this.$services.LocalizationService();
+      let navigationService = this.$services.NavigationService();
       localizationService.setUserLocale(localeCode);
-      window.location.reload();
+      navigationService.reloadWindow();
     }
   },
   data: () => ({
@@ -31,7 +32,7 @@ export default {
         v-for="lang in languages"
         :key="lang.localeCode"
         @click="onLanguageSelect(lang.localeCode)"
-				:class="lang.localeCode === selectedLocaleCode ? 'primary-text' : ''"
+        :class="lang.localeCode === selectedLocaleCode ? 'primary-text' : ''"
       >
         <v-list-item-title>{{ lang.text }}</v-list-item-title>
       </v-list-item>
