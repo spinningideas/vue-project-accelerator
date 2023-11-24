@@ -1,125 +1,139 @@
-<script>
-import Vue from "vue";
-import AuthButton from "@/components/App/AuthButton";
-import AuthDialog from "@/components/App/AuthDialog";
-import LanguageSelection from "@/components/App/LanguageSelection";
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+// services
+import { useAppStore } from '@/services/appStore'
+import localizationService from '@/services/localizationService'
+// components
+import AuthButton from '@/components/App/AuthButton.vue'
+import AuthDialog from '@/components/App/AuthDialog.vue'
+import LanguageSelection from '@/components/App/LanguageSelection.vue'
+import ThemeSelectionButton from '@/components/App/ThemeSelectionButton.vue'
 
-export default {
-  name: "navigation",
-  components: {
-    AuthButton,
-    AuthDialog,
-    LanguageSelection
-  },
-  mounted: async function() {
-    let authService = this.$services.AuthService();
-    let localizationService = this.$services.LocalizationService();
+const appService = useAppStore()
+const locService = localizationService()
 
-    const locCode = localizationService.getUserLocale();
-    const locDataLoaded = await localizationService.getLocalizedTextSet(
-      [
-        "apptitle",
-        "signin",
-        "signindescription",
-        "signout",
-        "home",
-        "contact",
-        "about",
-        "cancel"
-      ],
-      locCode
-    );
+// state
+let drawerVisible = ref<boolean>(false)
+let userSignedIn = ref<boolean>(false)
+let userSignInDialogOpen = ref<boolean>(false)
+let locData = ref<any>({})
 
-    this.$data.userSignedIn = authService.userHasSignedIn();
-    this.$data.locData = locDataLoaded;
-  },
-  methods: {
-    onSignIn: function() {
-      this.$data.userSignInDialogOpen = true;
-    },
-    onSignComplete: function() {
-      let authService = this.$services.AuthService();
-      authService.signIn();
-      this.$data.userSignedIn = true;
-      this.$data.userSignInDialogOpen = false;
-    },
-    onSignOut: function() {
-      let authService = this.$services.AuthService();
-      authService.signOut();
-      if (this.$data.userSignedIn) {
-        this.$data.userSignedIn = false;
-        window.location.reload();
-      }
-      this.$data.userSignInDialogOpen = false;
-    },
-    toggleDrawer: function(forceClose) {
-      this.$data.drawer = !this.$data.drawer;
-      if (forceClose) {
-        setTimeout(() => {
-          this.$data.drawer = false;
-        }, 0);
-      }
-    }
-  },
-  data: () => ({
-    drawer: false,
-    userSignedIn: false,
-    userSignInDialogOpen: false,
-    locData: {}
-  })
-};
+onMounted(async () => {
+  const locCode = locService.getUserLocale()
+  const locDataLoaded = await locService.getLocalizedTextSet(
+    [
+      'apptitle',
+      'signin',
+      'signindescription',
+      'signout',
+      'home',
+      'contact',
+      'about',
+      'cancel',
+      'settings'
+    ],
+    locCode
+  )
+
+  locData.value = locDataLoaded
+  userSignedIn.value = appService.userHasSignedIn()
+})
+
+const onSignIn = () => {
+  userSignInDialogOpen.value = true
+}
+
+const onSignComplete = () => {
+  appService.signIn()
+  userSignedIn.value = true
+  userSignInDialogOpen.value = false
+}
+
+const onSignOut = () => {
+  appService.signOut()
+  if (userSignedIn.value) {
+    userSignedIn.value = false
+    window.location.reload()
+  }
+  userSignInDialogOpen.value = false
+}
+
+const toggleDrawerVisible = (forceClose: boolean) => {
+  drawerVisible.value = !drawerVisible.value
+  if (forceClose) {
+    setTimeout(() => {
+      drawerVisible.value = false
+    }, 0)
+  }
+}
+
+const closeDrawer = () => {
+  toggleDrawerVisible(true)
+}
 </script>
 <template>
   <v-container fluid>
-    <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list dense>
-        <v-list-item to="/" @click="toggleDrawer(true)">
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ locData.home }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/contact" @click="toggleDrawer(true)">
-          <v-list-item-action>
-            <v-icon>mdi-email</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ locData.contact }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/about" @click="toggleDrawer(true)">
-          <v-list-item-action>
-            <v-icon>mdi-help</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ locData.about }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-app-bar app dense color="white">
-      <v-app-bar-nav-icon
-        @click.stop="toggleDrawer(false)"
-      ></v-app-bar-nav-icon>
+    <v-app-bar app flat class="elevation-1">
+      <v-app-bar-nav-icon @click.stop="toggleDrawerVisible(false)"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ locData.apptitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <language-selection class="mr-2"></language-selection>
-      <auth-button
-        v-bind:loc-data="locData"
-        v-bind:user-signed-in="userSignedIn"
-        v-bind:on-sign-in="onSignIn"
-        v-bind:on-sign-out="onSignOut"
-      ></auth-button>
-      <auth-dialog
-        v-bind:loc-data="locData"
-        v-bind:user-signed-in="userSignedIn"
-        v-bind:dialog-open="userSignInDialogOpen"
-        v-bind:on-sign-in-complete="onSignComplete"
-        v-bind:on-sign-in-cancel="onSignOut"
-      ></auth-dialog>
+      <v-toolbar-items>
+        <v-btn :title="locData.settings" to="/settings" @click="closeDrawer()">
+          <v-icon size="large">mdi-cog</v-icon></v-btn
+        >
+        <ThemeSelectionButton></ThemeSelectionButton>
+        <LanguageSelection></LanguageSelection>
+        <AuthButton
+          v-bind:loc-data="locData"
+          v-bind:user-signed-in="userSignedIn"
+          v-bind:on-sign-in="onSignIn"
+          v-bind:on-sign-out="onSignOut"
+        ></AuthButton>
+        <AuthDialog
+          v-bind:loc-data="locData"
+          v-bind:user-signed-in="userSignedIn"
+          v-bind:dialog-open="userSignInDialogOpen"
+          v-bind:on-sign-in-complete="onSignComplete"
+          v-bind:on-sign-in-cancel="onSignOut"
+        ></AuthDialog>
+      </v-toolbar-items>
     </v-app-bar>
+    <v-navigation-drawer
+      app
+      fixed
+      clipped
+      location="left"
+      height="100%"
+      overflow
+      v-model="drawerVisible"
+      :hide-overlay="false"
+    >
+      <v-list>
+        <v-list-item
+          prepend-icon="mdi-home"
+          :title="locData.home"
+          to="/"
+          @click="closeDrawer()"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-email"
+          :title="locData.contact"
+          to="/contact"
+          @click="closeDrawer()"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-cog"
+          :title="locData.settings"
+          to="/settings"
+          @click="closeDrawer()"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-help"
+          :title="locData.about"
+          to="/about"
+          @click="closeDrawer()"
+        ></v-list-item>
+      </v-list>
+    </v-navigation-drawer>
   </v-container>
 </template>

@@ -1,21 +1,21 @@
-<script>
-export default {
-  name: "auth-button",
-  props: {
-    locData: Object,
-    userSignedIn: Boolean,
-    onSignIn: Function,
-    onSignOut: Function
-  }
-};
+<script setup lang="ts">
+import { defineProps, ref } from 'vue'
+
+// state
+let userSignedIn = ref<boolean>(false)
+
+const props = defineProps<{
+  locData: any
+  onSignIn: Function
+  onSignOut: Function
+}>()
+
 </script>
 <template>
-  <span>
-    <v-btn v-if="userSignedIn" @click="onSignOut">
-      {{ locData.signout }}
-    </v-btn>
-    <v-btn v-if="!userSignedIn" @click="onSignIn" color="primary">
-      {{ locData.signin }}
-    </v-btn>
-  </span>
+  <v-btn variant="text" v-if="userSignedIn" @click="props.onSignOut">
+    {{ props.locData.signout }}
+  </v-btn>
+  <v-btn variant="text" v-if="!userSignedIn" @click="props.onSignIn" color="primary">
+    {{ props.locData.signin }}
+  </v-btn>
 </template>

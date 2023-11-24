@@ -1,25 +1,23 @@
-<script>
-import Navigation from "@/components/App/Navigation";
-import Notifications from "@/components/Shared/Notifications";
+<script setup lang="ts">
+import localStorageService from '@/services/localStorageService'
+// components
+import Navigation from '@/components/App/Navigation.vue'
+import { DEFAULT_THEME_SETTING } from '@/styling/theme'
 
-export default {
-  components: {
-    Navigation,
-    Notifications
-  },
-  data: () => ({})
-};
+// services
+const storageService = localStorageService()
+const themeSetting = storageService.getValueDefaulted<string>('theme', DEFAULT_THEME_SETTING)
 </script>
 <template>
-  <v-app id="appshell">
-    <navigation />
-    <v-main class="content-container">
-      <v-container fluid>
-        <v-slide-y-transition mode="out-in">
-          <router-view></router-view>
-        </v-slide-y-transition>
-      </v-container>
-    </v-main>
-    <notifications ref="notificationsRef"></notifications>
-  </v-app>
+  <v-theme-provider :theme="themeSetting" with-background>
+    <v-app app flat standalone>
+      <Navigation />
+      <v-main>
+        <v-container class="container-content" fluid transition="fade-transition" mode="out-in">
+          <RouterView />
+        </v-container>
+      </v-main>
+      <notifications position="top right" />
+    </v-app>
+  </v-theme-provider>
 </template>

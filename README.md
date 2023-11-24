@@ -8,7 +8,7 @@ The project aims to include many of the basic things one needs and includes:
 - localization and authorization via services.
 - "toast" style notifications and "modals" for dialogs.
 - use of sass
-- forms and validation via [vee-validate](https://logaretm.github.io/vee-validate/)
+- forms and validation via [vee-validate](https://vee-validate.logaretm.com/v4/)
 - use of HttpClient to call external REST API
 - use of git hub pages to host the live example
 
@@ -44,9 +44,9 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
+### Customize Vite Build Configuration
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [Configuration Reference](https://vitejs.dev/config/).
 
 ## More Info
 

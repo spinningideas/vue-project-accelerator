@@ -1,86 +1,85 @@
-<script>
-export default {
-  name: "contact",
-  mounted: async function() {
-    let localizationService = this.$services.LocalizationService();
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+// services
+import { useNotificationsStore } from '@/services/notificationsStore'
+import localizationService from '@/services/localizationService'
 
-    const locCode = localizationService.getUserLocale();
-    const locDataLoaded = await localizationService.getLocalizedTextSet(
-      [
-        "contact",
-        "contactdescription",
-        "moreinfo",
-        "save",
-        "name",
-        "email",
-        "message",
-        "messagedescription",
-        "required",
-        "success"
-      ],
-      locCode
-    );
-    this.$data.locData = locDataLoaded;
-  },
-  methods: {
-    getLocalizedValidationMessage: function() {
-      return this.$data.locData.required ? this.$data.locData.required : "";
-    },
-    sendContactMessage: function() {
-      this.$refs.form.validate();
-      if (this.$data.formIsValid) {
-        this.$services.NotificationsService.success(
-          this,
-          this.$data.locData.success
-        );
+const notificationsService = useNotificationsStore()
+const locService = localizationService()
 
-        this.$refs.form.reset();
-        this.$refs.form.resetValidation();
-      }
-    }
-  },
-  data() {
-    return {
-      locData: {},
-      name: "",
-      email: "",
-      message: "",
-      formIsValid: false,
-      enableLazyValidation: false,
-      requiredTextFieldRules: [
-        v => (!!v && v.length > 2) || this.getLocalizedValidationMessage()
-      ],
-      emailRules: [
-        v => !!v || this.getLocalizedValidationMessage(),
-        v => /.+@.+/.test(v) || this.getLocalizedValidationMessage()
-      ]
-    };
+// state
+const form = ref()
+
+let fromName = ref('')
+let fromEmailAddress = ref('')
+let fromEmailMessage = ref('')
+
+let formIsValid = ref(false)
+const enableLazyValidation = ref(false)
+const requiredTextFieldRules = ref([
+  (v: any) => (!!v && v.length > 2) || getLocalizedValidationMessage()
+])
+const emailRules = ref([
+  (v: any) => !!v || getLocalizedValidationMessage(),
+  (v: any) => /.+@.+/.test(v) || getLocalizedValidationMessage()
+])
+
+let locData = ref<any>({})
+
+onMounted(async () => {
+  const locCode = locService.getUserLocale()
+  const locDataLoaded = await locService.getLocalizedTextSet(
+    [
+      'contact',
+      'contactdescription',
+      'moreinfo',
+      'save',
+      'name',
+      'email',
+      'message',
+      'messagedescription',
+      'required',
+      'success'
+    ],
+    locCode
+  )
+
+  locData.value = locDataLoaded
+})
+
+const getLocalizedValidationMessage = () => {
+  return locData.required ? locData.required : ''
+}
+
+const sendContactMessage = () => {
+  form.value?.validate()
+  if (formIsValid.value) {
+    notificationsService.success(locData.success)
+
+    form.value?.reset()
+    form.value?.resetValidation()
   }
-};
+}
 </script>
 
 <template>
   <v-container fluid>
     <v-row no-gutters>
-      <v-col cols="12">
-        <v-card width="400" flat>
+      <v-col cols="12" align="center" justify="center">
+        <v-card maxWidth="400" flat>
           <v-card-text>
             <h2>{{ locData.contact }}</h2>
             <p>
               {{ locData.contactdescription }}
             </p>
-            <v-form
-              ref="form"
-              v-model="formIsValid"
-              :lazy-validation="enableLazyValidation"
-            >
-              <v-container fluid class="p-3">
+            <v-form ref="form" v-model="formIsValid" :lazy-validation="enableLazyValidation">
+              <v-container fluid>
                 <v-col cols="12">
                   <v-text-field
                     ref="NameInputRef"
                     name="Name"
                     v-bind:label="locData.name"
-                    v-model="name"
+                    v-model="fromName"
                     :rules="requiredTextFieldRules"
                     required
                   ></v-text-field>
@@ -90,7 +89,7 @@ export default {
                     ref="EmailAddressInputRef"
                     name="email"
                     v-bind:label="locData.email"
-                    v-model="email"
+                    v-model="fromEmailAddress"
                     :rules="emailRules"
                     required
                   ></v-text-field>
@@ -101,13 +100,14 @@ export default {
                     name="message"
                     v-bind:label="locData.message"
                     multi-line
-                    v-model="message"
+                    v-model="fromEmailMessage"
                     :rules="requiredTextFieldRules"
                     required
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-btn
+                    variant="elevated"
                     color="primary"
                     :disabled="!formIsValid"
                     @click="sendContactMessage"

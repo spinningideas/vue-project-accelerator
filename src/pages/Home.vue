@@ -1,82 +1,94 @@
-<script>
-import Vue from "vue";
-import Modal from "@/components/Shared/Modal";
-Vue.component("modal", Modal);
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+// services
+import { useAppStore } from '@/services/appStore'
+import { useNotificationsStore } from '@/services/notificationsStore'
+import localizationService from '@/services/localizationService'
+import geoService from '@/services/geoService'
+// components
+import Modal from '@/components/Shared/Modal.vue'
 
-export default {
-  name: "Home",
-  components: {
-    Modal
-  },
-  mounted: async function() {
-    let authService = this.$services.AuthService();
-    let localizationService = this.$services.LocalizationService();
+const appService = useAppStore()
+const notificationsService = useNotificationsStore()
+const locService = localizationService()
+const geographyService = geoService()
 
-    const locCode = localizationService.getUserLocale();
-    const locDataLoaded = await localizationService.getLocalizedTextSet(
-      [
-        "welcome",
-        "homepagewelcome",
-        "getstartedmessage",
-        "notifications",
-        "notificationsdescription",
-        "modals",
-        "modalsdescription",
-        "error",
-        "success",
-        "view",
-        "close",
-        "authenticatedcontent",
-        "authenticatedcontentdescription",
-        "services",
-        "serviceexampletitle",
-        "serviceexampledescription",
-        "forms",
-        "formsexample",
-        "formsexampledescription"
-      ],
-      locCode
-    );
+const router = useRouter()
 
-    this.$data.userSignedIn = authService.userHasSignedIn();
-    this.$data.locData = locDataLoaded;
-  },
-  methods: {
-    showSuccessNotification: function() {
-      this.$services.NotificationsService.success(
-        this,
-        this.$data.locData.success
-      );
-    },
-    showErrorNotification: function() {
-      this.$services.NotificationsService.error(this, this.$data.locData.error);
-    },
-    toggleModalDialog: function() {
-      this.$data.dialogOpen = !this.$data.dialogOpen;
-    },
-    toggleIPAddressDialog: function() {
-      this.$data.ipAddressDialogOpen = !this.$data.ipAddressDialogOpen;
-    },
-    showIpAddressUsingHttpClient: async function() {
-      await this.$services
-        .GeoService()
-        .getCurrentIPAddress()
-        .then(response => {
-          if (response) {
-            this.$data.ipAddressMessage = response.message;
-            this.toggleIPAddressDialog();
-          }
-        });
+// state
+let userSignedIn = ref<boolean>(false)
+let locData = ref<any>({})
+let ipAddressMessage = ref<string>('')
+let ipAddressDialogOpen = ref<boolean>(false)
+let dialogOpen = ref<boolean>(false)
+
+onMounted(async () => {
+  userSignedIn.value = appService.userHasSignedIn()
+  const locCode = locService.getUserLocale()
+
+  const locDataLoaded = await locService.getLocalizedTextSet(
+    [
+      'welcome',
+      'homepagewelcome',
+      'getstartedmessage',
+      'notifications',
+      'notificationsdescription',
+      'modals',
+      'modalsdescription',
+      'error',
+      'success',
+      'view',
+      'close',
+      'authenticatedcontent',
+      'authenticatedcontentdescription',
+      'services',
+      'serviceexampletitle',
+      'serviceexampledescription',
+      'forms',
+      'formsexample',
+      'formsexampledescription'
+    ],
+    locCode
+  )
+  locData.value = locDataLoaded
+
+  if (userSignedIn.value === true) {
+    router.push({ path: '/summary' })
+  }
+})
+
+const signIn = () => {
+  appService.signIn().then((userSignedInValue: boolean) => {
+    if (userSignedIn) {
+      userSignedIn.value = userSignedInValue
+      router.push({ path: '/' })
     }
-  },
-  data: () => ({
-    locData: {},
-    ipAddressMessage: "",
-    ipAddressDialogOpen: false,
-    dialogOpen: false,
-    userSignedIn: false
   })
-};
+}
+
+const showSuccessNotification = () => {
+  notificationsService.success(locData.value.success)
+}
+const showErrorNotification = () => {
+  notificationsService.error(locData.value.error)
+}
+const toggleModalDialog = () => {
+  dialogOpen.value = !dialogOpen.value
+}
+
+const toggleIPAddressDialog = () => {
+  ipAddressDialogOpen.value = !ipAddressDialogOpen.value
+}
+
+const showIpAddressUsingHttpClient = async () => {
+  await geographyService.getCurrentIPAddress().then((response) => {
+    if (response) {
+      ipAddressMessage.value = response.message
+      toggleIPAddressDialog()
+    }
+  })
+}
 </script>
 <template>
   <v-container fluid fill-height>
@@ -86,9 +98,7 @@ export default {
         <p>{{ locData.homepagewelcome }}</p>
         <v-container fluid v-if="userSignedIn">
           <v-card>
-            <v-card-title primary-title>{{
-              locData.authenticatedcontent
-            }}</v-card-title>
+            <v-card-title primary-title>{{ locData.authenticatedcontent }}</v-card-title>
             <v-card-text>
               {{ locData.authenticatedcontentdescription }}
             </v-card-text>
@@ -104,10 +114,10 @@ export default {
             {{ locData.notificationsdescription }}
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" @click="showSuccessNotification()">
+            <v-btn variant="elevated" color="primary" @click="showSuccessNotification()">
               {{ locData.success }}
             </v-btn>
-            <v-btn color="primary" @click="showErrorNotification()">
+            <v-btn variant="elevated" color="primary" @click="showErrorNotification()">
               {{ locData.error }}
             </v-btn>
           </v-card-actions>
@@ -120,16 +130,17 @@ export default {
             {{ locData.modalsdescription }}
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" @click="toggleModalDialog()">
+            <v-btn variant="elevated" color="primary" @click="toggleModalDialog()">
               {{ locData.view }}
             </v-btn>
-            <modal
-              v-bind:title="locData.welcome"
-              v-bind:open="dialogOpen"
-              v-bind:on-close="toggleModalDialog"
+            <Modal
+              :title="locData.welcome"
+              :open="dialogOpen"
+              :on-close="toggleModalDialog"
+              width="500"
             >
               <p>{{ locData.homepagewelcome }}</p>
-            </modal>
+            </Modal>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -140,18 +151,19 @@ export default {
             {{ locData.serviceexampledescription }}
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" @click="showIpAddressUsingHttpClient()">
+            <v-btn variant="elevated" color="primary" @click="showIpAddressUsingHttpClient()">
               {{ locData.serviceexampletitle }}
             </v-btn>
           </v-card-actions>
         </v-card>
-        <modal
-          v-bind:title="locData.serviceexampletitle"
-          v-bind:open="ipAddressDialogOpen"
-          v-bind:on-close="toggleIPAddressDialog"
+        <Modal
+          :title="locData.serviceexampletitle"
+          :open="ipAddressDialogOpen"
+          :on-close="toggleIPAddressDialog"
+          width="500"
         >
           <p>{{ ipAddressMessage }}</p>
-        </modal>
+        </Modal>
       </v-col>
       <v-col cols="12" md="4" lg="3">
         <v-card height="175">
@@ -160,7 +172,7 @@ export default {
             {{ locData.formsexampledescription }}
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" to="/contact">
+            <v-btn variant="elevated" color="primary" to="/contact">
               {{ locData.formsexample }}
             </v-btn>
           </v-card-actions>
