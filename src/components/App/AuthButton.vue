@@ -9,7 +9,6 @@ const props = defineProps<{
   onSignIn: Function
   onSignOut: Function
 }>()
-
 </script>
 <template>
   <v-btn variant="text" v-if="userSignedIn" @click="props.onSignOut">
