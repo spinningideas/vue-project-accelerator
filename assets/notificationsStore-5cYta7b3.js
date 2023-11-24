@@ -1,1 +1,0 @@
-import{q as s,S as r}from"./index-V2IxqB-g.js";const a=s("notificationsStore",()=>{const{notify:e}=r();return{success:(t,o)=>{e({type:"success",title:o,text:t})},error:(t,o)=>{e({type:"error",title:o,text:t})},info:(t,o)=>{e({type:"warn",title:o,text:t})}}});export{a as u};
