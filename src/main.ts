@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import App from '@/App.vue'
 // Routing
 import router from '@/router'
 // Pinia Store
@@ -14,7 +14,7 @@ import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loade
 // notifications
 import Notifications from '@kyvg/vue3-notification'
 // styling
-import './styling/main.css'
+import '@/styling/main.css'
 import { themeCustom } from '@/styling/theme'
 
 const vuetify = createVuetify({

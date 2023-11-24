@@ -54,7 +54,8 @@ const localizationService = () => {
 
   const getLocalizedData = async (localeCode: string) => {
     // get data from folder in public by locale using fetch
-    const localizedDataFilePath = `/i18n/${localeCode}.json`
+    const baseURL = import.meta.env.BASE_URL ? import.meta.env.BASE_URL : ''
+    const localizedDataFilePath = baseURL + `i18n/${localeCode}.json`
     return fetch(localizedDataFilePath)
       .then((response) => {
         return response.json()
